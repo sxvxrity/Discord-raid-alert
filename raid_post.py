@@ -41,8 +41,15 @@ def ts(dt, style="F"):
     return f"<t:{int(dt.timestamp())}:{style}>"
 
 
-def hours(delta):
-    return max(0, round(delta.total_seconds() / 3600))
+def eta(delta):
+    mins = max(0, round(delta.total_seconds() / 60))
+    if mins < 1:
+        return "less than a minute"
+    if mins < 60:
+        return f"about {mins} minute" + ("" if mins == 1 else "s")
+    h = round(mins / 60)
+    return f"about {h} hour" + ("" if h == 1 else "s")
+
 
 
 def build_embed(now, start, end):
@@ -64,14 +71,16 @@ def build_embed(now, start, end):
         embed["fields"].append(
             {
                 "name": "⏳ Starts in",
-                "value": f"{ts(start, 'R')}\n~{hours(start - now)} hours",
+                "value": f"{ts(start, 'R')}\n{eta(start - now)}",
+
                 "inline": True,
             }
         )
     embed["fields"].append(
         {
             "name": "🏁 Ends in",
-            "value": f"{ts(end, 'R')}\n~{hours(end - now)} hours",
+            "value": f"{ts(end, 'R')}\n{eta(end - now)}",
+
             "inline": True,
         }
     )
