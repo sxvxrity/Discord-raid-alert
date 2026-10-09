@@ -71,7 +71,7 @@ def build_embed(now, start, end):
         embed["fields"].append(
             {
                 "name": "⏳ Starts in",
-                "value": f"{ts(start, 'R')}\n{eta(start - now)}",
+                "value": (start, 'R'),
 
                 "inline": True,
             }
@@ -79,7 +79,7 @@ def build_embed(now, start, end):
     embed["fields"].append(
         {
             "name": "🏁 Ends in",
-            "value": f"{ts(end, 'R')}\n{eta(end - now)}",
+            "value": ts(end, 'R'),
 
             "inline": True,
         }
